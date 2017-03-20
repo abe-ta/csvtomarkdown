@@ -54,8 +54,3 @@ $ csvtomarkdown -f sample.csv -header
 |:----|:----|:----|
 |Taro|Test|Taro,Test|
 ```
-
-## TODO
-- markdown to csv
-- tsv
-- cli option
