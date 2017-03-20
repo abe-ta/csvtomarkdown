@@ -20,9 +20,9 @@ func main() {
 	)
 
 	flag.StringVar(&fname, "file", "", "CSV file path")
-	flag.StringVar(&fname, "f", "", "CSV file path")
+	flag.StringVar(&fname, "f", "", "alias of -file")
 	flag.StringVar(&outFileName, "out", "", "Output file name")
-	flag.StringVar(&outFileName, "o", "", "Output file name")
+	flag.StringVar(&outFileName, "o", "", "ailias of -out")
 	flag.BoolVar(&headerFlg, "header", false, "Use first line as headers")
 	flag.Parse()
 
