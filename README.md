@@ -11,21 +11,48 @@ go get github.com/josjos7/csvtomarkdown
 After install, you execute this tool by calling 'csvtomarkdown'
 
 ```
+Usage of csvtomarkdown:
+  -f string
+        alias of -file
   -file string
-        file path
+        CSV file path
+  -header
+        Use first line as headers
+  -o string
+        ailias of -out
   -out string
-        output file name
+        Output file name
 ```
 
-## Example
+## Example command
 - Read csv and write markdown to stdin
 ```
-$ ./csvtomarkdown -file temp/sample.csv
+$ csvtomarkdown -file temp/sample.csv
 ```
 
 - Read csv and write markdown to specified file
 ```
-$ ./csvtomarkdown -file temp/sample.csv -out out.md
+$ csvtomarkdown -file temp/sample.csv -out out.md
+```
+
+## Example input
+```
+First,Last,"Comma, ""double quate"""
+Taro,Test,"Taro,Test"
+```
+
+## Example output
+$ csvtomarkdown -f sample.csv
+```
+|First|Last|Comma, "double quate"|
+|Taro|Test|Taro,Test|
+```
+
+$ csvtomarkdown -f sample.csv -header
+```
+|First|Last|Comma, "double quate"|
+|:----|:----|:----|
+|Taro|Test|Taro,Test|
 ```
 
 ## TODO
