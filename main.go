@@ -13,21 +13,31 @@ import (
 func main() {
 	log.SetFlags(log.Lshortfile)
 
-	var fname, outFileName string
-	flag.StringVar(&fname, "file", "", "file path")
-	flag.StringVar(&outFileName, "out", "", "output file name")
+	var (
+		fname       string
+		outFileName string
+		headerFlg   bool
+	)
+
+	flag.StringVar(&fname, "file", "", "CSV file path")
+	flag.StringVar(&fname, "f", "", "CSV file path")
+	flag.StringVar(&outFileName, "out", "", "Output file name")
+	flag.StringVar(&outFileName, "o", "", "Output file name")
+	flag.BoolVar(&headerFlg, "header", false, "Use first line as headers")
 	flag.Parse()
 
-	parse(fname, outFileName)
+	parse(fname, outFileName, headerFlg)
 }
 
-func parse(path string, out string) {
+func parse(path string, out string, headerFlg bool) {
+	// csv
 	f, err := os.Open(path)
 	defer f.Close()
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
 
+	// writer
 	var writer *bufio.Writer
 	if out == "" {
 		writer = bufio.NewWriter(os.Stdout)
@@ -41,6 +51,7 @@ func parse(path string, out string) {
 	}
 	defer writer.Flush()
 
+	// read csv
 	reader := csv.NewReader(f)
 	isHeader := true
 	for {
@@ -50,13 +61,14 @@ func parse(path string, out string) {
 		} else if err != nil {
 			log.Fatal("Error:", err)
 		}
-		newRecords := toMarkdownTable(records, isHeader)
+		newRecords := toMarkdownTable(records, isHeader, headerFlg)
 		writer.Write(newRecords)
 		isHeader = false
 	}
 }
 
-func toMarkdownTable(records []string, isHeader bool) []byte {
+// TODO: move it to lib
+func toMarkdownTable(records []string, isHeader bool, headerFlg bool) []byte {
 	buf := make([]byte, 0, 10*len(records))
 	for _, val := range records {
 		// newline to '<br>'
@@ -66,7 +78,7 @@ func toMarkdownTable(records []string, isHeader bool) []byte {
 	}
 	buf = append(buf, "|\n"...)
 
-	if isHeader {
+	if isHeader && headerFlg {
 		for i := 0; i < len(records); i++ {
 			buf = append(buf, "|:----"...)
 		}
