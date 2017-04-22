@@ -71,6 +71,9 @@ func parse(path string, out string, headerFlg bool) {
 func toMarkdownTable(records []string, isHeader bool, headerFlg bool) []byte {
 	buf := make([]byte, 0, 10*len(records))
 	for _, val := range records {
+		val = strings.Replace(val, "&", "&amp;", -1)
+		val = strings.Replace(val, "<", "&lt;", -1)
+		val = strings.Replace(val, ">", "&gt;", -1)
 		// newline to '<br>'
 		val = strings.Replace(val, "\n", "<br>", -1)
 		buf = append(buf, "|"...)
