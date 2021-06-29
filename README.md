@@ -4,7 +4,7 @@ The tool csvtomarkdown is CLI tool.
 ## Install
 You can install it simply with go command.
 ```
-go get github.com/josjos7/csvtomarkdown
+go get github.com/abe-ta/csvtomarkdown
 ```
 
 ## Usage
